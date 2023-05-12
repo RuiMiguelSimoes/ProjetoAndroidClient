@@ -1,0 +1,97 @@
+{
+  "project_info": {
+    "project_number": "473648803938",
+    "project_id": "projetofirestore-c21d5",
+    "storage_bucket": "projetofirestore-c21d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:473648803938:android:1b3031f49127ffd2f9613b",
+        "android_client_info": {
+          "package_name": "com.android.application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "473648803938-a1sg1mrotd709seanrv73p93p5sp4aia.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdPW3IZlSNUWfEc8Rp87gHWUVaeFKejdo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "473648803938-a1sg1mrotd709seanrv73p93p5sp4aia.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:473648803938:android:165f7130e53c36d7f9613b",
+        "android_client_info": {
+          "package_name": "com.example.androidclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "473648803938-a1sg1mrotd709seanrv73p93p5sp4aia.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdPW3IZlSNUWfEc8Rp87gHWUVaeFKejdo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "473648803938-a1sg1mrotd709seanrv73p93p5sp4aia.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:473648803938:android:21f4482b19418acff9613b",
+        "android_client_info": {
+          "package_name": "com.hardwired.hardwaredconnection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "473648803938-a1sg1mrotd709seanrv73p93p5sp4aia.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdPW3IZlSNUWfEc8Rp87gHWUVaeFKejdo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "473648803938-a1sg1mrotd709seanrv73p93p5sp4aia.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
