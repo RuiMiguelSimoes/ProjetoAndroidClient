@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/autor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="de:"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/conteudo_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Conteudo..."/>
+
+        <TextView
+            android:id="@+id/data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="data"
+            android:layout_gravity="right"
+            android:textSize="10dp"
+            />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
