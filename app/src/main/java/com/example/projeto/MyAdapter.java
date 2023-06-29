@@ -35,9 +35,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         Post post = list.get(position);
-        holder.autor.setText(post.getBy());
+        holder.autor.setText(post.getAuthor_name());
         holder.conteudo_post.setText(post.getContent());
-        //holder.date.setText(post.getDate().toString());
+        holder.date.setText(post.getDate());
     }
 
     @Override
@@ -47,15 +47,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView autor, conteudo_post;
-        //TextView date;
+        TextView autor, conteudo_post, date;
 
         public MyViewHolder(@NonNull View itemVew){
             super (itemVew);
 
-            autor = itemVew.findViewById(R.id.autor);
+            autor = itemVew.findViewById(R.id.autor_nome);
             conteudo_post = itemVew.findViewById(R.id.conteudo_post);
-            //date = itemVew.findViewById(R.id.data);
+            date = itemVew.findViewById(R.id.data);
         }
     }
 }

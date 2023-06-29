@@ -1,36 +1,35 @@
 package com.example.projeto;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class Post {
 
-    String by;
-    UUID uuid;
-    Date date;
+    String author_name;
+    String getAuthor_email;
+    String date;
     String content;
 
-    public String getBy() {
-        return by;
+    public String getAuthor_name() {
+        return author_name;
     }
 
-    public void setBy(String by) {
-        this.by = by;
+    public void setAuthor_name(String author_name) {
+        this.author_name = author_name;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    public String getGetAuthor_email() {
+        return getAuthor_email;
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
+    public void setGetAuthor_email(String getAuthor_email) {
+        this.getAuthor_email = getAuthor_email;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -46,20 +45,15 @@ public class Post {
 
     }
 
-    public Post(String by, String content) {
-        this.by = by;
+    public Post(String author_name, String getAuthor_email, String content) {
+        this.author_name = author_name;
+        this.getAuthor_email = getAuthor_email;
         this.content = content;
     }
 
-    public Post(String by, UUID uuid, Date date, String content) {
-        this.by = by;
-        this.uuid = uuid;
-        this.date = date;
-        this.content = content;
-    }
-
-    public Post(String by, Date date, String content) {
-        this.by = by;
+    public Post(String author_name, String getAuthor_email, String date, String content) {
+        this.author_name = author_name;
+        this.getAuthor_email = getAuthor_email;
         this.date = date;
         this.content = content;
     }

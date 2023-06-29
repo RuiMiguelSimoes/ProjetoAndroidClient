@@ -1,11 +1,14 @@
 package com.example.projeto;
 
 import android.content.Intent;
+import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,9 +24,11 @@ import java.util.UUID;
 public class MakePost extends AppCompatActivity {
     FirebaseUser user;
     FirebaseAuth auth;
+    FirebaseDatabase database;
     Button submeterBtn;
     EditText conteudoEt;
-    FirebaseDatabase database;
+    TextView cancelar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -35,18 +40,37 @@ public class MakePost extends AppCompatActivity {
         user = auth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         DatabaseReference postsDatabase = database.getReference("Posts");
+        Intent intent = getIntent();
+        String nomeUtilizador = intent.getStringExtra("nomeUtilizador");
+        cancelar = findViewById(R.id.cancel_button);
+
         //submeter post
         submeterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String conteudo = conteudoEt.getText().toString();
                 Date nowDate = Calendar.getInstance().getTime();
                 String uuid = UUID.randomUUID().toString();
+                DateFormat date = new SimpleDateFormat(" dd MMM yyyy, h:mm");
+                String dateFormat = date.format(Calendar.getInstance().getTime());
 
-                Post newPost = new Post(user.getEmail(), nowDate, conteudo);
+
+                Post newPost = new Post(nomeUtilizador, user.getEmail(), dateFormat, conteudo);
                 postsDatabase.child(uuid).setValue(newPost);
                 //Toast.makeText(getApplicationContext(), "uuid: "+uuid, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //botão de cancelar
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
