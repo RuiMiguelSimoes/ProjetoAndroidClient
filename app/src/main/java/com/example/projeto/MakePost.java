@@ -51,13 +51,13 @@ public class MakePost extends AppCompatActivity {
 
                 String conteudo = conteudoEt.getText().toString();
                 Date nowDate = Calendar.getInstance().getTime();
-                String uuid = UUID.randomUUID().toString();
-                DateFormat date = new SimpleDateFormat(" dd MMM yyyy, h:mm");
+                String postKey = "pk:"+UUID.randomUUID().toString();
+                DateFormat date = new SimpleDateFormat(" dd MMM yyyy, HH:mm:ss");
                 String dateFormat = date.format(Calendar.getInstance().getTime());
 
 
-                Post newPost = new Post(nomeUtilizador, user.getEmail(), dateFormat, conteudo);
-                postsDatabase.child(uuid).setValue(newPost);
+                Post newPost = new Post(postKey ,user.getUid(), nomeUtilizador, user.getEmail(), dateFormat, conteudo);
+                postsDatabase.child(postKey).setValue(newPost);
                 //Toast.makeText(getApplicationContext(), "uuid: "+uuid, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);

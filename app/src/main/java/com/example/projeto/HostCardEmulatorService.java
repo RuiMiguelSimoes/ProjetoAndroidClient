@@ -4,8 +4,15 @@ import android.nfc.cardemulation.HostApduService;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+
 public class HostCardEmulatorService extends HostApduService {
 
+
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser user = auth.getCurrentUser();
     private static final String TAG = "HCE";
     private static final String STATUS_SUCCESS = "9000";
     private static final String STATUS_FAILED = "6F00";
@@ -46,7 +53,9 @@ public class HostCardEmulatorService extends HostApduService {
 
         if (hexCommandApdu.substring(10, 24).equals(AID)) {
             Log.i(TAG, "Sucessinho");
-            return Utils.hexStringToByteArray(STATUS_SUCCESS);
+            byte[] bytes = Utils.hexStringToByteArray(STATUS_SUCCESS);
+            byte[] id = "123".getBytes();
+            return id;
         } else {
             Log.i(TAG, "OOPS");
             return Utils.hexStringToByteArray(STATUS_FAILED);

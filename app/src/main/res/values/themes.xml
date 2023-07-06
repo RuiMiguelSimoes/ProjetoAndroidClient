@@ -15,4 +15,15 @@
     <style name="Theme.Projeto.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Projeto.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="SlideActivityAnimation" parent="@android:style/Animation.Activity">
+        
+        <item name="android:activityOpenEnterAnimation">
+            @anim/slide_right
+        </item>
+
+        <item name="android:activityCloseExitAnimation">
+            @anim/slide_left
+        </item>
+    </style>
 </resources>

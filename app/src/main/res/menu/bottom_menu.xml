@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_home_btn"
+        android:id="@+id/menu_home"
         android:icon="@drawable/baseline_home_24"
         android:title="Home"
         />
@@ -15,14 +15,10 @@
 
     <item
         android:id="@+id/definicoes"
-        android:icon="@drawable/baseline_settings_24"
-        android:title="Definições"
+        android:icon="@drawable/baseline_person_24"
+        android:title="Perfil"
         />
 
-    <item
-        android:id="@+id/menu_logout_btn"
-        android:icon="@drawable/baseline_logout_24"
-        android:title="Logout"
-        />
+
 
 </menu>

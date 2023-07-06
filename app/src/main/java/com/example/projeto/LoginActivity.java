@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         enrollBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, TestNFCreader.class);
+                Intent intent = new Intent(LoginActivity.this, ReadNFC.class);
                 startActivity(intent);
                 finish();
             }

@@ -22,6 +22,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     EditText nomeEt;
@@ -80,12 +83,19 @@ public class RegisterActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
+
+                                            FirebaseUser user = mAuth.getCurrentUser();
+
+                                            // nomes n podem conter '.', '#', '$', '[', ou ']'
+                                            Map<String, Object> map = new HashMap<>();
+                                            map.put("nome", nome);
+                                            map.put("email", email);
+
+                                            utlizadoresDatabase.child(user.getUid()).setValue(map);
+
                                             Log.d(TAG, "Utilizador registado com sucesso!");
                                             Toast.makeText(RegisterActivity.this, "Utilizador registado com sucesso!",Toast.LENGTH_SHORT).show();
 
-                                            utlizadoresDatabase.child(nome).setValue(email);
-                                            // nomes n podem conter '.', '#', '$', '[', ou ']'
-                                            FirebaseUser user = mAuth.getCurrentUser();
                                             Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                             startActivity(intent);
                                             finish();

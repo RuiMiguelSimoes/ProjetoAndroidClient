@@ -24,9 +24,6 @@
             android:name=".ReadNFC"
             android:exported="false" />
         <activity
-            android:name=".TestNFCreader"
-            android:exported="false" />
-        <activity
             android:name=".DefinicoesActivity"
             android:exported="false" />
         <activity

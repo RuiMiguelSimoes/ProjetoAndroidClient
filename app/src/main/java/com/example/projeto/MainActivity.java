@@ -23,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -52,56 +53,54 @@ public class MainActivity extends AppCompatActivity {
         user = auth.getCurrentUser();
         nomeTv = findViewById(R.id.TextViewNome);
         recyclerView = findViewById(R.id.postsList);
-        DatabaseReference utilizadoresDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference utilizadoresDatabase = FirebaseDatabase.getInstance().getReference("Utilizadores");
         floatingActionButton = findViewById(R.id.floatingButton);
         bottomNavigationView = findViewById(R.id.bottomnavigationView);
-        bottomNavigationView.setSelectedItemId(R.id.menu_home_btn);
-
         //get user name form email I guess 🤦‍
         String userEmail = user.getEmail();
-        utilizadoresDatabase.child("Utilizadores").addListenerForSingleValueEvent(new ValueEventListener() {
+
+        utilizadoresDatabase.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-
-                    String TAG = "MyActivity";
-                    Log.i(TAG, "keys: "+ childSnapshot.getKey());
-                    Log.i(TAG, "keys: "+ childSnapshot.getValue());
-
-                    if(Objects.equals(user.getEmail(), childSnapshot.getValue().toString())){
-                        nomeDoUtilizador=childSnapshot.getKey();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    DataSnapshot valueSnapshot = dataSnapshot;
+                    if (valueSnapshot.exists()) {
+                        Object value = valueSnapshot.child("nome").getValue();
+                        // Do something with the retrieved value
+                        nomeDoUtilizador = value.toString();
+                    } else {
+                        // The key does not exist in the database
+                        System.out.println("Key does not exist");
                     }
                 }
                 nomeTv.setText(nomeDoUtilizador+"'s Wall");
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle the error, if any
             }
         });
+
+        nomeTv.setText(nomeDoUtilizador+"'s Wall");
 
         //lista para os posts
         list = new ArrayList<>();
         myAdapter = new MyAdapter(this, list);
         recyclerView.setAdapter(myAdapter);
-
-        postsDatabase.addValueEventListener(new ValueEventListener() {
+        postsDatabase.orderByChild("date").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren() ){
 
                     Post post = dataSnapshot.getValue(Post.class);
-                    list.add( post);
-
+                    list.add(post);
                 }
                 myAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
 
@@ -115,9 +114,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //barra menu flotuante
+        //menu
         bottomNavigationView.setOnItemSelectedListener(item -> {
+
+            //butão home
+            if (item.getItemId() == R.id.menu_home){
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+
             //Botão de logout
+            /*
             if (item.getItemId() == R.id.menu_logout_btn) {
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -125,12 +134,14 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 return true;
             }
+             */
 
             //Atividade Add friend
             if (item.getItemId() == R.id.addFriend) {
                 Intent intent = new Intent(getApplicationContext(), AddFriend.class);
                 startActivity(intent);
                 finish();
+                return true;
             }
 
             //Atividade de difinições
@@ -138,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), DefinicoesActivity.class);
                 startActivity(intent);
                 finish();
+                return true;
             }
 
             return false;

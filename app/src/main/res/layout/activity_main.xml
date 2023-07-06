@@ -27,7 +27,7 @@
         android:layout_above="@+id/bottomnavigationView"
         app:layoutManager="LinearLayoutManager"
         android:backgroundTint="@color/secondaryBlue"
-
+        app:reverseLayout="true"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/TextViewNome"
         />
@@ -39,8 +39,9 @@
         android:layout_alignParentRight="true"
         android:layout_above="@id/bottomnavigationView"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="20dp"
-        android:clickable="true"
+        android:layout_marginBottom="34dp"
+        android:backgroundTint="@color/primaryBlue"
+        app:tint="@color/white"
         android:src="@drawable/baseline_add_circle_24" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -49,10 +50,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/bottom_backgroud"
-        app:itemIconSize="30dp"
         app:itemIconTint="@drawable/item_selection"
         app:menu="@menu/bottom_menu"
         app:itemRippleColor="@android:color/transparent"
+        app:itemTextColor="@color/white"
         />
 
 

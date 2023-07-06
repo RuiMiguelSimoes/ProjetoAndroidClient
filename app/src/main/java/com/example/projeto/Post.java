@@ -3,11 +3,28 @@ package com.example.projeto;
 import java.util.Date;
 
 public class Post {
-
+    String postKey;
+    String author_uuid;
     String author_name;
-    String getAuthor_email;
+    String author_email;
     String date;
     String content;
+
+    public String getPostKey() {
+        return postKey;
+    }
+
+    public void setPostKey(String postKey) {
+        this.postKey = postKey;
+    }
+
+    public String getAuthor_uuid() {
+        return author_uuid;
+    }
+
+    public void setAuthor_uuid(String author_uuid) {
+        this.author_uuid = author_uuid;
+    }
 
     public String getAuthor_name() {
         return author_name;
@@ -17,12 +34,12 @@ public class Post {
         this.author_name = author_name;
     }
 
-    public String getGetAuthor_email() {
-        return getAuthor_email;
+    public String getAuthor_email() {
+        return author_email;
     }
 
-    public void setGetAuthor_email(String getAuthor_email) {
-        this.getAuthor_email = getAuthor_email;
+    public void setAuthor_email(String author_email) {
+        this.author_email = author_email;
     }
 
     public String getDate() {
@@ -45,15 +62,11 @@ public class Post {
 
     }
 
-    public Post(String author_name, String getAuthor_email, String content) {
+    public Post(String postKey,String author_uuid, String author_name, String author_email, String date, String content) {
+        this.postKey = postKey;
+        this.author_uuid = author_uuid;
         this.author_name = author_name;
-        this.getAuthor_email = getAuthor_email;
-        this.content = content;
-    }
-
-    public Post(String author_name, String getAuthor_email, String date, String content) {
-        this.author_name = author_name;
-        this.getAuthor_email = getAuthor_email;
+        this.author_email = author_email;
         this.date = date;
         this.content = content;
     }
