@@ -18,13 +18,11 @@ public class MyFriendsFragmentAdapter extends RecyclerView.Adapter<MyFriendsFrag
 
     private List<User> friendsList;
 
-    public MyFriendsFragmentAdapter( List<String> data) {
+    public MyFriendsFragmentAdapter( List<User> friendsList) {
         this.friendsList = friendsList;
-    }
-
-    public MyFriendsFragmentAdapter(FriendsFragment friendsFragment, ArrayList<User> list) {
 
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -40,11 +38,16 @@ public class MyFriendsFragmentAdapter extends RecyclerView.Adapter<MyFriendsFrag
 
         holder.nome.setText(friend.nome);
     }
-
-    @Override
-    public int getItemCount() {
-        return friendsList != null ? friendsList.size() : 0;
-    }
+    /*
+        @Override
+        public int getItemCount() {
+            return friendsList.si();
+        }
+   */
+        @Override
+        public int getItemCount() {
+            return friendsList != null ? friendsList.size() : 0;
+        }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nome;

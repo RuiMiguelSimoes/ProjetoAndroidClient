@@ -38,6 +38,9 @@ public class User {
         this.nome = nome;
     }
 
+    public User(){
+
+    }
     public User(String email, String nome) {
         this.email = email;
         this.nome = nome;

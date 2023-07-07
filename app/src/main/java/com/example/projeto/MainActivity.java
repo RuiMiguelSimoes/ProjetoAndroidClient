@@ -47,12 +47,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference postsDatabase = database.getReference("Posts");
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         nomeTv = findViewById(R.id.TextViewNome);
         recyclerView = findViewById(R.id.postsList);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference postsDatabase = database.getReference("Posts");
         DatabaseReference utilizadoresDatabase = FirebaseDatabase.getInstance().getReference("Utilizadores");
         floatingActionButton = findViewById(R.id.floatingButton);
         bottomNavigationView = findViewById(R.id.bottomnavigationView);
