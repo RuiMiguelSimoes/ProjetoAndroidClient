@@ -3,7 +3,6 @@ package com.example.projeto;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -11,7 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 
-public class DefinicoesActivity extends AppCompatActivity {
+public class PerfilActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
     BottomNavigationView bottomNavigationView;
@@ -75,7 +74,7 @@ public class DefinicoesActivity extends AppCompatActivity {
 
             //Atividade de difinições
             if (item.getItemId() == R.id.definicoes){
-                Intent intent = new Intent(getApplicationContext(), DefinicoesActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PerfilActivity.class);
                 startActivity(intent);
                 finish();
                 return true;

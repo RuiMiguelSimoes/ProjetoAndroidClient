@@ -1,40 +1,37 @@
 package com.example.projeto;
 
 public class Comment {
+    private String commentId;
+    private String commenterName;
+    private String commentContent;
+    private String commenterId;
 
-    private String commentUid, comment_author_name, comment;
-
-    public String getCommentUid() {
-        return commentUid;
+    public String getCommentId() {
+        return commentId;
     }
 
-    public void setCommentUid(String commentUid) {
-        this.commentUid = commentUid;
+    public String getCommenterName() {
+        return commenterName;
     }
 
-    public String getComment_author_name() {
-        return comment_author_name;
+    public String getCommentContent() {
+        return commentContent;
     }
-
-    public void setComment_author_name(String comment_author_name) {
-        this.comment_author_name = comment_author_name;
+    public Comment(String commentId, String commenterName, String commentContent) {
+        this.commentId = commentId;
+        this.commenterName = commenterName;
+        this.commentContent = commentContent;
     }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    Comment(){
+    public Comment(){
 
     }
 
-    public Comment(String commentUid, String comment_author_name, String comment) {
-        this.commentUid = commentUid;
-        this.comment_author_name = comment_author_name;
-        this.comment = comment;
+    public Comment(String commentId, String commenterName, String commentContent, String commenterId) {
+        this.commentId = commentId;
+        this.commenterName = commenterName;
+        this.commentContent = commentContent;
+        this.commenterId = commenterId;
     }
 }
+
+

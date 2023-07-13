@@ -4,13 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -20,27 +18,26 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.MyViewHolder> {
 
     Context context;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference postsDatabase = database.getReference("Posts");
+    DatabaseReference databaseReference = database.getReference();
+    List<Post> postList;
 
-    ArrayList<Post> list;
-
-    public MyAdapter(Context context, ArrayList<Post> list){
+    public MyPostAdapter(Context context, List<Post> list){
         this.context = context;
-        this.list = list;
+        this.postList = list;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(context).inflate(R.layout.post, parent, false);
-
+        View v = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false);
         return new MyViewHolder(v);
     }
 
@@ -48,49 +45,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        Post post = list.get(position);
+        Post post = postList.get(position);
         holder.autor.setText(post.getAuthor_name());
         holder.conteudo_post.setText(post.getContent());
         holder.date.setText(post.getDate());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int clickedPosition = holder.getAdapterPosition();
-                Post clickedPost = list.get(clickedPosition);
 
-                Toast.makeText(context, "context clicado", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        holder.submitCommentBtn.setOnClickListener(new View.OnClickListener() {
-
-            int clickedPosition = holder.getAdapterPosition();
-            Post clickedPost = list.get(clickedPosition);
-
-            @Override
-            public void onClick(View view) {
-                postsDatabase.equalTo(clickedPost.postKey).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                        String commentKey = "ck:"+UUID.randomUUID().toString();
-
-                        Comment comment = new Comment(commentKey, "utilizador", holder.comentarioTextTv.getText().toString());
-
-                        postsDatabase.child(post.getPostKey()).child("comments").child(commentKey).setValue(comment);
-
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
-                holder.comentarioTextTv.setText("");
-            }
-        });
-
-        //contar os likes
-        postsDatabase.child(post.getPostKey()).child("comments").addValueEventListener(new ValueEventListener() {
+        //contar o numero de COMENTARIOS
+        databaseReference.child("Comments").child(post.postKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 holder.numeroComentarios.setText(String.valueOf(snapshot.getChildrenCount()));
@@ -100,27 +62,61 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             }
         });
 
+        //adicionar comentario
+        holder.submitCommentBtn.setOnClickListener(new View.OnClickListener() {
+
+            int clickedPosition = holder.getAdapterPosition();
+            Post clickedPost = postList.get(clickedPosition);
+
+            @Override
+            public void onClick(View view) {
+                databaseReference.child("Comments").child(clickedPost.getPostKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        String commentKey =UUID.randomUUID().toString();
+                        Comment comment = new Comment(commentKey, clickedPost.author_name, holder.comentarioTextTv.getText().toString());
+
+                        databaseReference.child("Comments").child(clickedPost.getPostKey()).child(commentKey).setValue(comment);
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+                holder.comentarioTextTv.setText("");
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return postList.size();
+    }
+
+    public void addComment(int position, String commentContent) {
+        Post post = postList.get(position);
+        String commentId = UUID.randomUUID().toString();
+        Comment comment = new Comment(commentId, "User", commentContent);
+
+        notifyItemChanged(position);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView autor, conteudo_post, date, comentarioTextTv, numeroComentarios;
         ImageButton submitCommentBtn;
-
+        RecyclerView commentsRecyclerView;
         public MyViewHolder(@NonNull View itemVew){
             super (itemVew);
 
             autor = itemVew.findViewById(R.id.autor_nome);
-            conteudo_post = itemVew.findViewById(R.id.conteudo_post);
+            conteudo_post = itemVew.findViewById(R.id.postContentTextView);
             date = itemVew.findViewById(R.id.data);
             submitCommentBtn = itemVew.findViewById(R.id.submit_comment_button);
             comentarioTextTv = itemVew.findViewById(R.id.comment_edittext);
             numeroComentarios = itemVew.findViewById(R.id.numero_comentarios_tv);
+            commentsRecyclerView = itemVew.findViewById(R.id.commentsRecyclerView);
+            commentsRecyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
 
         }
     }

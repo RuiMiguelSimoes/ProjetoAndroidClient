@@ -50,7 +50,6 @@ public class MakePost extends AppCompatActivity {
             public void onClick(View view) {
 
                 String conteudo = conteudoEt.getText().toString();
-                Date nowDate = Calendar.getInstance().getTime();
                 String postKey = "pk:"+UUID.randomUUID().toString();
                 DateFormat date = new SimpleDateFormat(" dd MMM yyyy, HH:mm:ss");
                 String dateFormat = date.format(Calendar.getInstance().getTime());

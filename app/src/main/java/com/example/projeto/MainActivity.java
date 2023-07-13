@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,25 +23,24 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
     FirebaseUser user;
     FirebaseAuth auth;
+    FirebaseDatabase database;
     TextView nomeTv;
-    FloatingActionButton floatingActionButton;
     RecyclerView recyclerView;
-    MyAdapter myAdapter;
-    ArrayList<Post> list;
-    String nomeDoUtilizador;
+    MyPostAdapter postAdapter;
+    ArrayList<Post> postList;
+    EditText postEditText;
+    DatabaseReference databaseReference;
     BottomNavigationView bottomNavigationView;
+    String nomeDoUtilizador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +50,13 @@ public class MainActivity extends AppCompatActivity {
         user = auth.getCurrentUser();
         nomeTv = findViewById(R.id.TextViewNome);
         recyclerView = findViewById(R.id.postsList);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database = FirebaseDatabase.getInstance();
+        databaseReference=database.getReference();
         DatabaseReference postsDatabase = database.getReference("Posts");
         DatabaseReference utilizadoresDatabase = FirebaseDatabase.getInstance().getReference("Utilizadores");
-        floatingActionButton = findViewById(R.id.floatingButton);
         bottomNavigationView = findViewById(R.id.bottomnavigationView);
-        //get user name form email I guess 🤦‍
-        String userEmail = user.getEmail();
 
+        //get user name form email I guess 🤦‍
         utilizadoresDatabase.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -75,46 +73,55 @@ public class MainActivity extends AppCompatActivity {
                 }
                 nomeTv.setText(nomeDoUtilizador+"'s Wall");
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle the error, if any
             }
         });
 
-        nomeTv.setText(nomeDoUtilizador+"'s Wall");
 
         //lista para os posts
-        list = new ArrayList<>();
-        myAdapter = new MyAdapter(this, list);
-        recyclerView.setAdapter(myAdapter);
-        postsDatabase.orderByChild("date").addValueEventListener(new ValueEventListener() {
+        postList = new ArrayList<>();
+        postAdapter = new MyPostAdapter(this, postList);
+        recyclerView.setAdapter(postAdapter);
+        databaseReference.child("Posts").orderByChild("date").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                postList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren() ){
 
                     Post post = dataSnapshot.getValue(Post.class);
-                    list.add(post);
+                    postList.add(post);
+
                 }
-                myAdapter.notifyDataSetChanged();
+                postAdapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
 
-        //floating button
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        // Set up the input fields
+        postEditText = findViewById(R.id.postEditText);
+
+        // Set up the post button click listener
+        Button postButton = findViewById(R.id.postButton);
+        postButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MakePost.class);
-                intent.putExtra("nomeUtilizador",nomeDoUtilizador);
-                startActivity(intent);
+            public void onClick(View v) {
+                String postContent = postEditText.getText().toString().trim();
+                String postKey = "pk:"+UUID.randomUUID().toString();
+                DateFormat date = new SimpleDateFormat(" dd MMM yyyy, HH:mm:ss");
+                String dateFormat = date.format(Calendar.getInstance().getTime());
+
+                if (!postContent.isEmpty()) {
+                    addPost(postContent);
+                    postEditText.setText("");
+                }
             }
         });
 
-        //menu
+        //menu de navigação 
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
             //butão home
@@ -124,17 +131,6 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 return true;
             }
-
-            //Botão de logout
-            /*
-            if (item.getItemId() == R.id.menu_logout_btn) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-                finish();
-                return true;
-            }
-             */
 
             //Atividade Add friend
             if (item.getItemId() == R.id.addFriend) {
@@ -146,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
             //Atividade de difinições
             if (item.getItemId() == R.id.definicoes){
-                Intent intent = new Intent(getApplicationContext(), DefinicoesActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PerfilActivity.class);
                 startActivity(intent);
                 finish();
                 return true;
@@ -154,6 +150,17 @@ public class MainActivity extends AppCompatActivity {
 
             return false;
         });
+
+    }
+    //adicionar post
+    private void addPost(String postContent) {
+        String postId = UUID.randomUUID().toString();
+        DateFormat date = new SimpleDateFormat(" dd MMM yyyy, HH:mm:ss");
+        String dateFormat = date.format(Calendar.getInstance().getTime());
+        Post post = new Post(postId, user.getUid(), nomeDoUtilizador, user.getEmail(), dateFormat, postContent);
+        databaseReference.child("Posts").child(postId).setValue(post);
+        postList.add(post);
+        postAdapter.notifyDataSetChanged();
 
     }
 

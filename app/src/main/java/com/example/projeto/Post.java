@@ -1,6 +1,6 @@
 package com.example.projeto;
 
-import java.util.Date;
+import java.util.List;
 
 public class Post {
     String postKey;
@@ -9,6 +9,20 @@ public class Post {
     String author_email;
     String date;
     String content;
+
+    private List<Comment> comments;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
 
     public String getPostKey() {
         return postKey;
@@ -69,5 +83,15 @@ public class Post {
         this.author_email = author_email;
         this.date = date;
         this.content = content;
+    }
+
+    public Post(String postKey, String author_uuid, String author_name, String author_email, String date, String content, List<Comment> comments) {
+        this.postKey = postKey;
+        this.author_uuid = author_uuid;
+        this.author_name = author_name;
+        this.author_email = author_email;
+        this.date = date;
+        this.content = content;
+        this.comments = comments;
     }
 }

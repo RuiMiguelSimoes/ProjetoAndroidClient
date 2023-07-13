@@ -38,12 +38,6 @@ public class MyFriendsFragmentAdapter extends RecyclerView.Adapter<MyFriendsFrag
 
         holder.nome.setText(friend.nome);
     }
-    /*
-        @Override
-        public int getItemCount() {
-            return friendsList.si();
-        }
-   */
         @Override
         public int getItemCount() {
             return friendsList != null ? friendsList.size() : 0;

@@ -1,5 +1,6 @@
 package com.example.projeto;
 
+import android.nfc.Tag;
 import android.nfc.cardemulation.HostApduService;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,9 +11,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class HostCardEmulatorService extends HostApduService {
 
+    FirebaseUser user;
+    FirebaseAuth auth;
 
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    FirebaseUser user = auth.getCurrentUser();
     private static final String TAG = "HCE";
     private static final String STATUS_SUCCESS = "9000";
     private static final String STATUS_FAILED = "6F00";
@@ -22,11 +23,8 @@ public class HostCardEmulatorService extends HostApduService {
     private static final String SELECT_INS = "A4";
     private static final String DEFAULT_CLA = "00";
     private static final int MIN_APDU_LENGTH = 12;
-
-    @Override
-    public void onDeactivated(int reason) {
-        Log.d(TAG, "Deactivated: " + reason);
-    }
+    private static final String P1 = "04";
+    private static final String P2 = "00";
 
     @Override
     public byte[] processCommandApdu(byte[] commandApdu, Bundle extras) {
@@ -35,6 +33,7 @@ public class HostCardEmulatorService extends HostApduService {
         }
 
         String hexCommandApdu = Utils.toHex(commandApdu);
+
         Log.i(TAG, hexCommandApdu + "   AID of this app" + AID);
 
         if (hexCommandApdu.length() < MIN_APDU_LENGTH) {
@@ -51,15 +50,33 @@ public class HostCardEmulatorService extends HostApduService {
             return Utils.hexStringToByteArray(INS_NOT_SUPPORTED);
         }
 
+        if (hexCommandApdu.substring(4, 6).equals(P1) && hexCommandApdu.substring(6, 8).equals(P2)) {
+            Log.i(TAG, "data");
+            String ret = "123";
+            ret += STATUS_SUCCESS;
+            byte[] b = Utils.hexStringToByteArray(ret);
+            Log.i(TAG, "Sucessinho Data" + b.length);
+            return b;
+        }
+
         if (hexCommandApdu.substring(10, 24).equals(AID)) {
-            Log.i(TAG, "Sucessinho");
-            byte[] bytes = Utils.hexStringToByteArray(STATUS_SUCCESS);
-            byte[] id = "123".getBytes();
-            return id;
+            auth = FirebaseAuth.getInstance();
+            user = auth.getCurrentUser();
+            String userid = "PORRA";
+            String ret = userid + STATUS_SUCCESS;
+            byte[] b = Utils.hexStringToByteArray(ret);
+            Log.i(TAG, "Sucessinho " + b.length);
+            Log.i(TAG, "Sucessinho " + userid);
+            return b;
         } else {
             Log.i(TAG, "OOPS");
             return Utils.hexStringToByteArray(STATUS_FAILED);
         }
+    }
+
+    @Override
+    public void onDeactivated(int reason) {
+        Log.d(TAG, "Deactivated: " + reason);
     }
 
 }
