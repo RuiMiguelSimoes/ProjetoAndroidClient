@@ -1,11 +1,13 @@
 package com.example.projeto;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,7 +52,6 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.MyViewHold
         holder.conteudo_post.setText(post.getContent());
         holder.date.setText(post.getDate());
 
-
         //contar o numero de COMENTARIOS
         databaseReference.child("Comments").child(post.postKey).addValueEventListener(new ValueEventListener() {
             @Override
@@ -62,30 +63,26 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.MyViewHold
             }
         });
 
-        //adicionar comentario
-        holder.submitCommentBtn.setOnClickListener(new View.OnClickListener() {
-
-            int clickedPosition = holder.getAdapterPosition();
-            Post clickedPost = postList.get(clickedPosition);
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                databaseReference.child("Comments").child(clickedPost.getPostKey()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int clickedPosition = holder.getAdapterPosition();
 
-                        String commentKey =UUID.randomUUID().toString();
-                        Comment comment = new Comment(commentKey, clickedPost.author_name, holder.comentarioTextTv.getText().toString());
+                String postId = post.getPostKey();
+                String author_name = post.author_name;
+                String postContent = post.content;
+                String postData = post.date;
+                Intent intent = new Intent(context, PostActivity.class);
 
-                        databaseReference.child("Comments").child(clickedPost.getPostKey()).child(commentKey).setValue(comment);
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
-                holder.comentarioTextTv.setText("");
+                intent.putExtra("intentExtraPostid", postId);
+                intent.putExtra("intentExtraAuthorName", author_name);
+                intent.putExtra("intentExtraPostContent", postContent);
+                intent.putExtra("intentExtraPostDate", postData);
+
+                context.startActivity(intent);
             }
         });
+
     }
 
     @Override
@@ -93,30 +90,18 @@ public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.MyViewHold
         return postList.size();
     }
 
-    public void addComment(int position, String commentContent) {
-        Post post = postList.get(position);
-        String commentId = UUID.randomUUID().toString();
-        Comment comment = new Comment(commentId, "User", commentContent);
 
-        notifyItemChanged(position);
-    }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView autor, conteudo_post, date, comentarioTextTv, numeroComentarios;
-        ImageButton submitCommentBtn;
-        RecyclerView commentsRecyclerView;
+        TextView autor, conteudo_post, date, numeroComentarios;
         public MyViewHolder(@NonNull View itemVew){
             super (itemVew);
 
             autor = itemVew.findViewById(R.id.autor_nome);
             conteudo_post = itemVew.findViewById(R.id.postContentTextView);
-            date = itemVew.findViewById(R.id.data);
-            submitCommentBtn = itemVew.findViewById(R.id.submit_comment_button);
-            comentarioTextTv = itemVew.findViewById(R.id.comment_edittext);
+            date = itemVew.findViewById(R.id.dataTextView);
             numeroComentarios = itemVew.findViewById(R.id.numero_comentarios_tv);
-            commentsRecyclerView = itemVew.findViewById(R.id.commentsRecyclerView);
-            commentsRecyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
 
         }
     }

@@ -67,6 +67,8 @@
         android:background="@drawable/bottom_backgroud"
         app:itemIconTint="@drawable/item_selection"
         app:menu="@menu/bottom_menu"
+        style="@style/CustomBottomNavigationStyle"
+        app:itemBackground="@drawable/bottom_navigation_item_selector"
         app:itemRippleColor="@android:color/transparent"
         app:itemTextColor="@color/white"
         />

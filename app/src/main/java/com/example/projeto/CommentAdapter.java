@@ -1,5 +1,6 @@
 package com.example.projeto;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,23 +14,28 @@ import java.util.List;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
 
+    private Context context;
     private List<Comment> commentList;
 
-    public CommentAdapter(List<Comment> comments) {
+    public CommentAdapter(Context context, List<Comment> comments) {
+        this.context = context;
         this.commentList = comments;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_comment, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CommentAdapter.ViewHolder holder, int position) {
         Comment comment = commentList.get(position);
+
         holder.commentContentTextView.setText(comment.getCommentContent());
+        holder.commenterTextView.setText(comment.getCommenterName());
+        holder.dataTextView.setText(comment.getCommenteDate());
     }
 
     @Override
@@ -41,13 +47,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         }
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView commentContentTextView;
-
+        TextView commentContentTextView;
+        TextView commenterTextView;
+        TextView commentDateTextView;
+        TextView dataTextView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             commentContentTextView = itemView.findViewById(R.id.commentTextView);
+            commenterTextView = itemView.findViewById(R.id.commenterTextView);
+            commentDateTextView = itemView.findViewById(R.id.dataTextView);
+            dataTextView = itemView.findViewById(R.id.dataTextView);
         }
 
         public void bind(Comment comment) {

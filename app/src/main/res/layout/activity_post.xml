@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PostActivity">
+
+    <LinearLayout
+        android:id="@+id/commentCardLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/autor_nome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="de:"
+            android:textColor="@color/black"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/postContentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="24dp"
+            android:text="Conteudo..."
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/commentsCountTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <TextView
+                    android:id="@+id/commentIconTextView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:background="@drawable/baseline_chat_bubble_24"
+                    android:textColor="@color/primaryBlue"
+
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/data"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="data"
+                android:textSize="12dp"
+
+                tools:ignore="TextSizeCheck" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/commentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/comment_edittext"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="Escreve o teu comentário aqui..."
+                android:inputType="textMultiLine"
+                android:maxLines="4"
+                android:paddingLeft="16dp"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/submitCommentImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/baseline_send_24" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/commentCardLayout"
+        android:id="@+id/commentsRecyclerView"
+        app:layoutManager="LinearLayoutManager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:reverseLayout="true"
+        />
+
+
+</RelativeLayout>

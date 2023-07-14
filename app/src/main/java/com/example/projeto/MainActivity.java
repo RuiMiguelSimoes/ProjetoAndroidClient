@@ -9,6 +9,7 @@ import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,15 +34,15 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseUser user;
     FirebaseAuth auth;
-    FirebaseDatabase database;
     TextView nomeTv;
     RecyclerView recyclerView;
     MyPostAdapter postAdapter;
     ArrayList<Post> postList;
     EditText postEditText;
+    FirebaseDatabase database;
     DatabaseReference databaseReference;
     BottomNavigationView bottomNavigationView;
-    String nomeDoUtilizador;
+    public static String nomeDoUtilizador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle the error, if any
+                Toast.makeText(MainActivity.this, "Não é possivel obter o nome :(", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -120,35 +123,38 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        bottomNavigationView.setOnItemSelectedListener(null);
+        //menu de navigação
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
 
-        //menu de navigação 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
 
-            //butão home
-            if (item.getItemId() == R.id.menu_home){
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                finish();
-                return true;
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                //butão home
+                if (item.getItemId() == R.id.menu_home){
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+                //Atividade Add friend
+                if (item.getItemId() == R.id.addFriend) {
+                    Intent intent = new Intent(getApplicationContext(), AddFriend.class);
+                    startActivity(intent);
+                    finish();
+
+                }
+
+                //Atividade de difinições
+                if (item.getItemId() == R.id.definicoes){
+                    Intent intent = new Intent(getApplicationContext(), PerfilActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                }
+                return false;
             }
-
-            //Atividade Add friend
-            if (item.getItemId() == R.id.addFriend) {
-                Intent intent = new Intent(getApplicationContext(), AddFriend.class);
-                startActivity(intent);
-                finish();
-                return true;
-            }
-
-            //Atividade de difinições
-            if (item.getItemId() == R.id.definicoes){
-                Intent intent = new Intent(getApplicationContext(), PerfilActivity.class);
-                startActivity(intent);
-                finish();
-                return true;
-            }
-
-            return false;
         });
 
     }
