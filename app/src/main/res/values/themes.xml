@@ -1,0 +1,30 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Projeto" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/primaryBlue</item>
+    </style>
+
+    <style name="Theme.Projeto" parent="Base.Theme.Projeto" />
+
+    <style name="Theme.Projeto.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Projeto.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Projeto.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="SlideActivityAnimation" parent="@android:style/Animation.Activity">
+        
+        <item name="android:activityOpenEnterAnimation">
+            @anim/slide_right
+        </item>
+
+        <item name="android:activityCloseExitAnimation">
+            @anim/slide_left
+        </item>
+    </style>
+</resources>

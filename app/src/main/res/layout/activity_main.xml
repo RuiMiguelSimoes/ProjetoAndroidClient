@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@color/white"
+    android:layout_gravity="center"
+    >
+
+    <TextView
+        android:id="@+id/TextViewNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="24dp"
+        android:hint="nome"
+        android:layout_marginTop="20dp"
+        >
+    </TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        />
+
+    <LinearLayout
+        android:id="@+id/makePostLinearLayout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TextViewNome"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <!-- Input field for posting -->
+        <EditText
+            android:id="@+id/postEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:hint="Diz-nos que estas a pensar!"
+            android:padding="8dp" />
+
+        <!-- Button for posting -->
+        <Button
+            android:id="@+id/postButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/secondaryBlue"
+            android:text="Publicar"
+            android:layout_marginStart="6dp"
+            />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/postsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="LinearLayoutManager"
+        android:backgroundTint="@color/secondaryBlue"
+        app:reverseLayout="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/makePostLinearLayout"
+        />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomnavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bottom_backgroud"
+        app:itemIconTint="@drawable/item_selection"
+        app:menu="@menu/bottom_menu"
+        style="@style/CustomBottomNavigationStyle"
+        app:itemBackground="@drawable/bottom_navigation_item_selector"
+        app:itemRippleColor="@android:color/transparent"
+        app:itemTextColor="@color/white"
+        />
+
+
+</RelativeLayout>
